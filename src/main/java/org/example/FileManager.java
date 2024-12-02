@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileManager {
+
     public void writeAllLinks(LinkExtractor extractor) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/all_links.txt"))) {
             writeElements(writer, "Links:", extractor.getLinks(), "abs:href");
@@ -28,9 +29,8 @@ public class FileManager {
         writer.newLine();
         elements.forEach(element -> {
             String link = element.attr(attrKey);
-            boolean isSafe = LinkSafetyChecker.isLinkSafe(link);
             try {
-                writer.write(link + " - " + (isSafe ? "Seguro" : "Inseguro"));
+                writer.write(link);
                 writer.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -45,11 +45,10 @@ public class FileManager {
         writer.newLine();
         elements.stream()
                 .map(element -> element.attr(attrKey))
-                .filter(link -> LinkValidator.getHttpStatus(link) == 200)
+                .filter(link -> LinkValidator.getHttpStatus(link) == 200) // Solo enlaces con código 200
                 .forEach(link -> {
-                    boolean isSafe = LinkSafetyChecker.isLinkSafe(link);
                     try {
-                        writer.write(link + " - " + (isSafe ? "Seguro" : "Inseguro"));
+                        writer.write(link);
                         writer.newLine();
                     } catch (IOException e) {
                         e.printStackTrace();
