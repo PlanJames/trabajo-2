@@ -45,7 +45,7 @@ public class FileManager {
         writer.newLine();
         elements.stream()
                 .map(element -> element.attr(attrKey))
-                .filter(link -> LinkValidator.getHttpStatus(link) == 200) // Solo enlaces con código 200
+                .filter(link -> LinkValidator.getHttpStatus(link) == 200)
                 .forEach(link -> {
                     try {
                         writer.write(link);
